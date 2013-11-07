@@ -1,0 +1,5 @@
+Bundle 'altercation/solarized'
+Bundle 'vim-scripts/vim-stylus'
+Bundle 'digitaltoad/vim-jade'
+Bundle 'skammer/vim-css-color'
+Bundle 'moll/vim-node'

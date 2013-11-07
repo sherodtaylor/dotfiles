@@ -18,6 +18,13 @@
   excludesfile = ~/.gitignore
   autocrlf = input
 [merge]
-  ff = only
+	tool = vimdiff
 [include]
   path = .gitconfig.local
+[user]
+	name = sherodtaylor
+	email = sherodtaylor@gmail.com
+[credential]
+	helper = osxkeychain
+[diff]
+	tool = vimdiff
