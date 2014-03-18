@@ -16,6 +16,9 @@ setopt auto_cd
 export VISUAL=vim
 export EDITOR=$VISUAL
 
+#Node Environmet
+export NODE_ENV=development
+
 # vi mode
 bindkey -v
 bindkey "^F" vi-cmd-mode
@@ -69,3 +72,11 @@ setopt EXTENDED_GLOB
 
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+export PATH="$HOME/.bin:$PATH"
+export PATH="$HOME/.bin:$PATH"
+export PATH="$HOME/.bin:$PATH"
+
+# recommended by brew doctor
+export PATH='/usr/local/bin:/Users/sherodtaylor/.bin:/Users/sherodtaylor/.bin:/Users/sherodtaylor/.bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin'
+
+export PATH="$HOME/.bin:$PATH"
