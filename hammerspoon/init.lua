@@ -107,10 +107,6 @@ hotkey.bind(mash, 'F', openff)
 hotkey.bind(mash, 'C', openchrome)
 hotkey.bind(mash, 'M', openmail)
 --
--- /Open Applications
---
-
-
 --
 -- Window management
 --
@@ -145,9 +141,6 @@ hotkey.bind(mash, 'N', grid.pushWindowNextScreen)
 hotkey.bind(mash, 'P', grid.pushWindowPrevScreen)
 
 hotkey.bind(mash, 'M', grid.maximizeWindow)
---
--- /Window management
---
 
 
 --
