@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/staylor279/go/src/go.dev.bloomberg.com/SystemsCoreEngineering/bosun/.githooks'
+let g:netrw_dirhist_2='/Users/staylor279/personalcode/dotfiles/hammerspoon/Spoons/ViMode'
+let g:netrw_dirhist_3='/Users/staylor279/personalcode/dotfiles/hammerspoon'
