@@ -10,8 +10,8 @@ grid.MARGINY = 0
 grid.GRIDHEIGHT = 12
 grid.GRIDWIDTH = 12
 
-local mash = {"cmd", "alt", "ctrl"}
-local mashshift = {"cmd", "alt", "ctrl", "shift"}
+local mash = {"cmd", "alt"}
+local mashctrl = {"cmd", "alt", "ctrl"}
 
 --
 -- replace caffeine
@@ -111,19 +111,21 @@ hotkey.bind(mash, 'M', openmail)
 -- Window management
 --
 --Alter gridsize
-hotkey.bind(mashshift, '=', function() grid.adjustHeight( 1) end)
-hotkey.bind(mashshift, '-', function() grid.adjustHeight(-1) end)
+hotkey.bind(mashctrl, '=', function() grid.adjustHeight( 1) end)
+hotkey.bind(mashctrl, '-', function() grid.adjustHeight(-1) end)
 hotkey.bind(mash, '=', function() grid.adjustWidth( 1) end)
 hotkey.bind(mash, '-', function() grid.adjustWidth(-1) end)
 
 --Snap windows
 hotkey.bind(mash, ';', function() module.leftHalf() end)
 hotkey.bind(mash, "'", function() module.rightHalf() end)
+hotkey.bind(mashctrl, ';', function() module.topHalf() end)
+hotkey.bind(mashctrl, "'", function() module.bottomHalf() end)
 
-hotkey.bind(mashshift, 'H', function() window.focusedWindow():focusWindowWest() end)
-hotkey.bind(mashshift, 'L', function() window.focusedWindow():focusWindowEast() end)
-hotkey.bind(mashshift, 'K', function() window.focusedWindow():focusWindowNorth() end)
-hotkey.bind(mashshift, 'J', function() window.focusedWindow():focusWindowSouth() end)
+hotkey.bind(mashctrl, 'H', function() window.focusedWindow():focusWindowWest() end)
+hotkey.bind(mashctrl, 'L', function() window.focusedWindow():focusWindowEast() end)
+hotkey.bind(mashctrl, 'K', function() window.focusedWindow():focusWindowNorth() end)
+hotkey.bind(mashctrl, 'J', function() window.focusedWindow():focusWindowSouth() end)
 
 --Move windows
 hotkey.bind(mash, 'J', grid.pushWindowDown)
@@ -154,8 +156,7 @@ hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reload_config):start()
 hs.alert.show("Config loaded")
 
 -- /Monitor and reload config when required
--- -----------------------------------------------------------------------
---                         ** Something Global **                       --
+-- ----------------------------------------------------------------------- --                         ** Something Global **                       --
 -- -----------------------------------------------------------------------
   -- Comment out this following line if you wish to see animations
 local windowMeta = {}
@@ -261,6 +262,21 @@ end
 module.rightHalf = function ()
   local this = windowMeta.new()
   local cell = Cell(0.5 * this.screenGrid.w, 0, 0.5 * this.screenGrid.w, this.screenGrid.h)
+  grid.set(this.window, cell, this.screen)
+end
+--
+module.topHalf = function ()
+  local this = windowMeta.new()
+  local cell = Cell(0, 0, this.screenGrid.w, this.screenGrid.h * 0.5)
+  print(this.screenGrid)
+  grid.set(this.window, cell, this.screen)
+  this.window.setShadows(true)
+end
+
+module.bottomHalf = function ()
+  local this = windowMeta.new()
+  local cell = Cell(0, this.screenGrid.h * 0.5, this.screenGrid.w, this.screenGrid.h * 0.5)
+  print(cell)
   grid.set(this.window, cell, this.screen)
 end
 --
