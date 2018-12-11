@@ -143,6 +143,7 @@ hotkey.bind(mash, 'N', grid.pushWindowNextScreen)
 hotkey.bind(mash, 'P', grid.pushWindowPrevScreen)
 
 hotkey.bind(mash, 'M', grid.maximizeWindow)
+hotkey.bind(mashctrl, 'M', grid.maximizeWindow)
 
 
 --
