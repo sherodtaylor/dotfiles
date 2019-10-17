@@ -9,3 +9,9 @@ tmp/**/*
 !tmp/cache/.keep
 zeus.json
 out/
+.DS_Store
+.idea/
+node_modules/.cache
+.githooks/
+.idea/*
+.idea

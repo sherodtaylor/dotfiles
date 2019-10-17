@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/staylor279/go/src/go.dev.bloomberg.com/SystemsCoreEngineering/bosun/.githooks'
-let g:netrw_dirhist_2='/Users/staylor279/personalcode/dotfiles/hammerspoon/Spoons/ViMode'
-let g:netrw_dirhist_3='/Users/staylor279/personalcode/dotfiles/hammerspoon'
+let g:netrw_dirhist_cnt =4
+let g:netrw_dirhist_1='/Users/staylor279/go/src/go.dev.bloomberg.com/SystemsCoreEngineering/bosun/server/apis/sor'
+let g:netrw_dirhist_2='/Users/staylor279/Library/Application Support/Google/Chrome'
+let g:netrw_dirhist_3='/private/etc/ssl/certs'
+let g:netrw_dirhist_4='/Users/staylor279/learn-ocaml-workshop/02-exercises/01-introduction'
