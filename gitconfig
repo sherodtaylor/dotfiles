@@ -2,8 +2,7 @@
   default = current
 [color]
   ui = auto
-[alias]
-  aa = add --all
+[alias] aa = add --all
   ap = add --patch
   ca = commit --amend
   ci = commit -v
@@ -21,10 +20,24 @@
 	tool = vimdiff
 [include]
   path = .gitconfig.local
-[user]
-	name = sherodtaylor
-	email = sherodtaylor@gmail.com
 [credential]
 	helper = osxkeychain
 [diff]
 	tool = vimdiff
+
+[url "bbgithub:"]
+  insteadOf = https://bbgithub.dev.bloomberg.com
+[url "git@github.com:"]
+  insteadOf = "https://github.com/"
+[http]
+  #proxy = http://proxy.bloomberg.com:81
+  sslVerify = false
+[includeIf "gitdir:~/code/personalcode/"]
+  name = Sherod Taylor
+  email = sherodtaylor@gmail.com
+[includeIf "gitdir:~/personal/"]
+  name = Sherod Taylor
+  email = sherodtaylor@gmail.com
+[user]
+	email = staylor279@bloomberg.net
+	name = Sherod Taylor

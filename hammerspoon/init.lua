@@ -117,10 +117,15 @@ hotkey.bind(mash, '=', function() grid.adjustWidth( 1) end)
 hotkey.bind(mash, '-', function() grid.adjustWidth(-1) end)
 
 --Snap windows
-hotkey.bind(mash, ';', function() module.leftHalf() end)
-hotkey.bind(mash, "'", function() module.rightHalf() end)
-hotkey.bind(mashctrl, ';', function() module.topHalf() end)
-hotkey.bind(mashctrl, "'", function() module.bottomHalf() end)
+hotkey.bind(mash, ';', function() module.topHalf() end)
+hotkey.bind(mash, "'", function() module.bottomHalf() end)
+hotkey.bind(mash, '.', function() module.leftHalf() end)
+hotkey.bind(mash, "/", function() module.rightHalf() end)
+
+hotkey.bind(mashctrl, ';', function() module.topLeftQuarter() end)
+hotkey.bind(mashctrl, "'", function() module.topRightQuarter() end)
+hotkey.bind(mashctrl, '.', function() module.bottomLeftQuarter() end)
+hotkey.bind(mashctrl, "/", function() module.bottomRightQuarter() end)
 
 hotkey.bind(mashctrl, 'H', function() window.focusedWindow():focusWindowWest() end)
 hotkey.bind(mashctrl, 'L', function() window.focusedWindow():focusWindowEast() end)
@@ -279,4 +284,32 @@ module.bottomHalf = function ()
   print(cell)
   grid.set(this.window, cell, this.screen)
 end
+
 --
+module.topLeftQuarter = function ()
+  local this = windowMeta.new()
+  local cell = Cell(0, 0, 0.5 * this.screenGrid.w, this.screenGrid.h * 0.5)
+  print(cell)
+  grid.set(this.window, cell, this.screen)
+end
+
+module.topRightQuarter = function ()
+  local this = windowMeta.new()
+  local cell = Cell(0.5 * this.screenGrid.w, 0, 0.5 * this.screenGrid.w, this.screenGrid.h * 0.5)
+  print(cell)
+  grid.set(this.window, cell, this.screen)
+end
+
+module.bottomLeftQuarter = function ()
+  local this = windowMeta.new()
+  local cell = Cell(0, this.screenGrid.h * 0.5, this.screenGrid.w * .5, this.screenGrid.h * 0.5)
+  print(cell)
+  grid.set(this.window, cell, this.screen)
+end
+
+module.bottomRightQuarter = function ()
+  local this = windowMeta.new()
+  local cell = Cell(this.screenGrid.w * 0.5, this.screenGrid.h * 0.5, this.screenGrid.w * 0.5, this.screenGrid.h * 0.5)
+  print(cell)
+  grid.set(this.window, cell, this.screen)
+end
