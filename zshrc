@@ -47,13 +47,21 @@ export PS1='[${SSH_CONNECTION+"%n@%m:"}%~] '
 export HISTCONTROL=ignoredups:erasedups
 
 # append history entries..
+setopt inc_append_history
+
 
 # keep TONS of history
-export HISTSIZE=4096
+export HISTSIZE=999999999
+export SAVEHIST=$HISTSIZE
 export HISTFILE=~/.zsh_history
 export PROMPT_COMMAND="history -a; history -n"
 setopt inc_append_history
-set hist_ignore_dups
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
 
 
 
@@ -81,42 +89,54 @@ setopt cdablevars
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 export PATH="$HOME/.bin:$PATH"
-export PATH="$HOME/.bin:$PATH"
-export PATH="$HOME/.bin:$PATH"
 
 # recommended by brew doctor
 export PATH='/usr/local/bin:/Users/sherodtaylor/.bin:/Users/sherodtaylor/.bin:/Users/sherodtaylor/.bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin'
-
-export PATH="$HOME/.bin:$PATH"
-eval $(go env)
-export GOBIN=$GOPATH/bin
+export GOROOT=/usr/local/go
+export GOPATH=/Users/staylor279/go
+export GOBIN=$GOROOT/bin
+export PATH=$GOPATH/bin:$PATH:$GOROOT/bin
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/10/bin
+eval $(go env)
 
-export ALL_PROXY=http://127.0.0.1:8888
-export http_proxy=http://127.0.0.1:8888
-export https_proxy=http://127.0.0.1:8888
-export GOPRIVATE="*.dev.bloomberg.com"
-export GOPROXY="https://artprod.dev.bloomberg.com/artifactory/api/go/bbgolang,https://proxy.golang.org,direct"
-alias dev_proxy='http_proxy=http://bproxy.tdmz1.bloomberg.com:80 https_proxy=http://bproxy.tdmz1.bloomberg.com:80'
-alias ext_proxy='http_proxy=http://proxy.bloomberg.com:81 https_proxy=http://proxy.bloomberg.com:81'
-export http_proxy=http://proxy.bloomberg.com:81
-export https_proxy=http://proxy.bloomberg.com:81
-export SASS_BINARY_PATH=~/Downloads/darwin-x64-72_binding.node
+#export ALL_PROXY=http://127.0.0.1:8888
+#export http_proxy=http://proxy.bloomberg.com:81
+#export https_proxy=http://proxy.bloomberg.com:81
+#export ALL_PROXY=http://proxy.bloomberg.com:81
+#export GOPRIVATE="*.dev.bloomberg.com"
+#export GOPROXY="https://goproxy.dev.bloomberg.com,direct"
+
+#alias dev_proxy='http_proxy=http://bproxy.tdmz1.bloomberg.com:80 https_proxy=http://bproxy.tdmz1.bloomberg.com:80'
+#alias ext_proxy='http_proxy=http://proxy.bloomberg.com:81 https_proxy=http://proxy.bloomberg.com:81'
+#export http_proxy=http://proxy.bloomberg.com:81
+#export https_proxy=http://proxy.bloomberg.com:81
+#export SASS_BINARY_PATH=~/Downloads/darwin-x64-72_binding.node
+#alias dev_proxy='http_proxy=http://bproxy.tdmz1.bloomberg.com:80 https_proxy=http://bproxy.tdmz1.bloomberg.com:80 GOPROXY=https://artprod.dev.bloomberg.com/artifactory/api/go/bbgolang,https://proxy.golang.org,direct'
+alias ext_proxy='http_proxy=http://proxy.bloomberg.com:81 https_proxy=http://proxy.bloomberg.com:81 GOPROXY=https://artprod.dev.bloomberg.com/artifactory/api/go/bbgolang,https://proxy.golang.org,direct GOPRIVATE="*.dev.bloomberg.com"'
+alias go_proxy='GOPROXY=https://goproxy.dev.bloomberg.com,direct  GOPRIVATE=*.dev.bloomberg.com'
 
 
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
 
 
-export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH:$HOME/.rover/bin"
 
 alias fsmount="mkdir ~/dev && sshfs devsftp.bloomberg.com: ~/dev -p 2222 -o IdentityFile=~/.toolkit/toolkit_ssh_key_staylor279"
 alias fsunmount="hdiutil eject -force ~/dev && rm -rf ~/dev"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export PATH="/usr/local/opt/python@3.8/bin:$PATH"
+export PATH="/usr/local/opt/python@3.7/bin:$PATH:/Users/staylor279/Library/Python/3.7/bin:$HOME/.cargo/bin"
+export GO111MODULE=on
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
+
+export PNPM_HOME="/Users/staylor279/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
