@@ -140,3 +140,5 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 export PNPM_HOME="/Users/staylor279/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+# Set PATH, MANPATH, etc., for Homebrew.
+eval "$(/opt/homebrew/bin/brew shellenv)"

@@ -132,9 +132,7 @@ hotkey.bind(mashctrl, 'L', function() window.focusedWindow():focusWindowEast() e
 hotkey.bind(mashctrl, 'K', function() window.focusedWindow():focusWindowNorth() end)
 hotkey.bind(mashctrl, 'J', function() window.focusedWindow():focusWindowSouth() end)
 
---Move windows
-hotkey.bind(mash, 'J', grid.pushWindowDown)
-hotkey.bind(mash, 'K', grid.pushWindowUp)
+--Move windows hotkey.bind(mash, 'J', grid.pushWindowDown) hotkey.bind(mash, 'K', grid.pushWindowUp)
 hotkey.bind(mash, 'H', grid.pushWindowLeft)
 hotkey.bind(mash, 'L', grid.pushWindowRight)
 
