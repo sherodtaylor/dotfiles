@@ -90,12 +90,13 @@ setopt cdablevars
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 export PATH="$HOME/.bin:$PATH"
 
+export ZSH_THEME="eastwood"
 # recommended by brew doctor
 export PATH='/usr/local/bin:/Users/sherodtaylor/.bin:/Users/sherodtaylor/.bin:/Users/sherodtaylor/.bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin'
 export GOROOT=/usr/local/go
 export GOPATH=/Users/staylor279/go
 export GOBIN=$GOROOT/bin
-export PATH=$GOPATH/bin:$PATH:$GOROOT/bin
+export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:$GOBIN
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/10/bin
 eval $(go env)
@@ -129,6 +130,7 @@ alias fsunmount="hdiutil eject -force ~/dev && rm -rf ~/dev"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 export PATH="/usr/local/opt/python@3.7/bin:$PATH:/Users/staylor279/Library/Python/3.7/bin:$HOME/.cargo/bin"
+export PATH="/usr/local/opt/python@3.9/bin:$PATH:/Users/staylor279/Library/Python/3.9/bin:$HOME/.cargo/bin"
 export GO111MODULE=on
 
 export NVM_DIR="$HOME/.nvm"
@@ -140,5 +142,44 @@ complete -o nospace -C /usr/local/bin/terraform terraform
 export PNPM_HOME="/Users/staylor279/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+# KREW
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(starship init zsh)"
+
+source $HOME/.fzf-git.zsh
+
+alias rapi3tool='docker run --rm -v "`pwd -P`:/workarea" -v "/tmp:/mnttmp:ro" -e USER=${USER} -e KRB5CCNAME="/mnttmp/krb5cc_`id -u $USER`" -it artprod.dev.bloomberg.com/training/rapi3tool:latest rapi3tool'
+
+# Wasmer
+export WASMER_DIR="/Users/staylor279/.wasmer"
+[ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/staylor279/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/staylor279/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/staylor279/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/staylor279/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+export PATH="$PATH:/Applications/Docker.app/Contents/Resources/bin/"
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+
+# pnpm
+export PNPM_HOME="/Users/staylor279/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# pnpm endexport PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+#
+
+# Created by `pipx` on 2024-04-17 21:16:08
+export PATH="$PATH:/Users/staylor279/.local/bin:/Applications/Postgres.app/Contents/Versions/16/bin"
+source ~/.zshrc.secrets
+

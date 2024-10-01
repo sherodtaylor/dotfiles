@@ -27,11 +27,12 @@
 
 [url "bbgithub:"]
   insteadOf = https://bbgithub.dev.bloomberg.com
-[url "git@github.com:"]
-  insteadOf = "https://github.com/"
+#[url "git@github.com:"]
+#  insteadOf = "https://github.com/"
 [http]
   #proxy = http://proxy.bloomberg.com:81
   sslVerify = false
+	postBuffer = 157286400
 [includeIf "gitdir:~/code/personalcode/"]
   name = Sherod Taylor
   email = sherodtaylor@gmail.com
@@ -41,3 +42,8 @@
 [user]
 	email = staylor279@bloomberg.net
 	name = Sherod Taylor
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
