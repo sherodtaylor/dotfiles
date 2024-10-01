@@ -1,5 +1,6 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =2
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/Users/staylor279/code/dotfiles/config'
 let g:netrw_dirhist_2='/Users/staylor279/.config/gcloud'
 let g:netrw_dirhist_1='/Users/staylor279/.config'
 let g:netrw_dirhist_0='/Users/staylor279/.config/zed'
@@ -9,4 +10,3 @@ let g:netrw_dirhist_7='/Users/staylor279/.config/pip'
 let g:netrw_dirhist_6='/Users/staylor279/Library/CloudStorage/GoogleDrive-sherodtaylor@gmail.com/My Drive/Obsidian/work'
 let g:netrw_dirhist_5='/Users/staylor279/.yarn'
 let g:netrw_dirhist_4='/Users/staylor279/code/personalcode/michael-scarn-gpt/src-tauri'
-let g:netrw_dirhist_3='/Users/staylor279/.ssh'
