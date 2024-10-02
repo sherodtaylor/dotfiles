@@ -4,7 +4,6 @@ fpath=(~/.zsh/completion $fpath)
 # completion
 autoload -U compinit
 compinit
-
 for function in ~/.zsh/functions/*; do
   source $function
 done
@@ -148,8 +147,6 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(starship init zsh)"
-
 source $HOME/.fzf-git.zsh
 
 alias rapi3tool='docker run --rm -v "`pwd -P`:/workarea" -v "/tmp:/mnttmp:ro" -e USER=${USER} -e KRB5CCNAME="/mnttmp/krb5cc_`id -u $USER`" -it artprod.dev.bloomberg.com/training/rapi3tool:latest rapi3tool'
@@ -183,3 +180,4 @@ esac
 export PATH="$PATH:/Users/staylor279/.local/bin:/Applications/Postgres.app/Contents/Versions/16/bin"
 source ~/.zshrc.secrets
 
+#source /opt/homebrew/opt/spaceship/spaceship.zsh
