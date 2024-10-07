@@ -21,6 +21,13 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.editor.fzf" },
     -- import/override with your plugins
     { import = "plugins" },
+    {
+      "startup-nvim/startup.nvim",
+      dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope-file-browser.nvim" },
+      config = function()
+        require "startup".setup({theme="evil"})
+      end
+    },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
