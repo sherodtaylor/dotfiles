@@ -1,7 +1,11 @@
 return {
-  { "junegunn/fzf", build = "./install --bin" },
+  { "junegunn/fzf",
+    lazy = false,
+    build = "./install --bin"
+  },
   {
     "ibhagwan/fzf-lua",
+    lazy = false,
     -- optional for icon support
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
