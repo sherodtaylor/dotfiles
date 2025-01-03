@@ -181,3 +181,11 @@ export PATH="$PATH:/Users/staylor279/.local/bin:/Applications/Postgres.app/Conte
 source ~/.zshrc.secrets
 
 #source /opt/homebrew/opt/spaceship/spaceship.zsh
+
+# wezterm to path
+export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
+export PATH="$PATH:/snap/bin"
+export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/"
+export PATH="$PATH:/mnt/c/Users/shero/AppData/Local/Microsoft/WinGet/Packages/equalsraf.win32yank_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+
+source ~/.zshrc.secrets
