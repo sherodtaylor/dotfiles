@@ -181,3 +181,6 @@ export PATH="$PATH:/Users/staylor279/.local/bin:/Applications/Postgres.app/Conte
 source ~/.zshrc.secrets
 
 #source /opt/homebrew/opt/spaceship/spaceship.zsh
+
+# wezterm to path
+export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
