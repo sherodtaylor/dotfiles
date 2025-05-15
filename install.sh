@@ -1,6 +1,4 @@
-#!/bin/sh
-
-#!/bin/sh
+#!/bin/bash
 
 function symlink_file {
   local src="$1"
@@ -16,8 +14,8 @@ function symlink_file {
 }
 
 for name in *; do
-  # Skip hidden files (starting with .) and install.sh, README.md
-  if [[ $name == .+ ]] || [[ $name == "install.sh" ]] || [[ $name == "README.md" ]]; then
+  # Skip hidden files (starting with .), install.sh, README.md
+  if [[ "$name" == .* ]] || [[ "$name" == "install.sh" ]] || [[ "$name" == "README.md" ]]; then
     continue
   fi
 
@@ -29,9 +27,10 @@ for name in *; do
   if [ -d "$src" ]; then
     # Create target directory if it doesn't exist
     mkdir -p "$target"
-    # Call the symlink_file function recursively for each file inside
+    # Call the symlink_file function for each file inside
     for f in "$src/"*; do
-      symlink_file "$f" "$target/$(basename "$f")"
+      base_f=$(basename "$f")
+      symlink_file "$f" "$target/$base_f"
     done
   else
     # Symlink the file
