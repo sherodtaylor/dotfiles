@@ -29,6 +29,7 @@
 [difftool "nvimdiff"]
     cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 
+
 #[url "git@github.com:"]
 #  insteadOf = "https://github.com/"
 [http]
