@@ -22,12 +22,13 @@
   path = .gitconfig.local
 [credential]
 	helper = osxkeychain
-[difftool]
-    prompt = true
-[diff]
-    tool = nvimdiff
-[difftool "nvimdiff"]
-    cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+[merge]
+  tool = nvimdiff
+[mergetool]
+  prompt = false
+  keepBackup = false
+[mergetool "nvimdiff"]
+  layout = "LOCAL,BASE,REMOTE / MERGED"
 
 
 #[url "git@github.com:"]
