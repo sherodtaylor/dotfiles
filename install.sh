@@ -168,7 +168,7 @@ process_directory() {
     local item_name=$(basename "$item")
 
     # Skip README files and hidden files
-    if [[ "$item_name" == "README.md" ]] || [[ "$item_name" == .* ]]; then
+    if [[ "$filename" == "install.sh" ]] || [[ "$filename" == "secrets.zsh" ]] || [[ "$filename" == "install."*".sh" ]] || [[ "$filename" == "README.md" ]] || [[ "$filename" == .* ]]; then
       continue
     fi
 
@@ -221,15 +221,14 @@ main() {
     echo "Then run this script again."
   fi
 
-  cp -rf secrets.zsh "$HOME/.secrets.zsh"
-
   # Process top-level files and directories
   for file in "$DOTFILES_DIR"/*; do
     # Get the base filename
     filename=$(basename "$file")
 
     # Skip this script, installation scripts, README, and hidden files
-    if [[ "$filename" == "install.sh" ]] || [[ "$filename" == "install."*".sh" ]] || [[ "$filename" == "README.md" ]] || [[ "$filename" == .* ]]; then
+    if [[ "$filename" == "install.sh" ]] || [[ "$filename" == "secrets.zsh" ]] || [[ "$filename" == "install."*".sh" ]] || [[ "$filename" == "README.md" ]] || [[ "$filename" == .* ]]; then
+      echo "skip processing file: $filename"
       continue
     fi
 
@@ -290,6 +289,9 @@ main() {
       fi
     fi
   done
+
+  echo "copying $HOME/secrets.zsh"
+  cp -rf secrets.zsh "$HOME/.secrets.zsh"
 
   # Print summary of backup files if any were created
   backup_files=$(find "$HOME" -name "*.backup.*" 2>/dev/null)
