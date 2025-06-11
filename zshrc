@@ -178,7 +178,6 @@ esac
 
 # Created by `pipx` on 2024-04-17 21:16:08
 export PATH="$PATH:/Users/staylor279/.local/bin:/Applications/Postgres.app/Contents/Versions/16/bin"
-source ~/.zshrc.secrets
 
 #source /opt/homebrew/opt/spaceship/spaceship.zsh
 
@@ -187,5 +186,6 @@ export PATH="$PATH:/Applications/WezTerm.app/Contents/MacOS"
 export PATH="$PATH:/snap/bin"
 export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/"
 export PATH="$PATH:/mnt/c/Users/shero/AppData/Local/Microsoft/WinGet/Packages/equalsraf.win32yank_Microsoft.Winget.Source_8wekyb3d8bbwe/"
+export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
 
-source ~/.zshrc.secrets
+source ~/.secrets.zsh
