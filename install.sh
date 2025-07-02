@@ -131,6 +131,79 @@ install_oh_my_zsh() {
   return 0
 }
 
+# Clean up broken symlinks
+cleanup_broken_symlinks() {
+  local dotfiles_dir="$1"
+  local cleanup_log="$dotfiles_dir/.cleanup-$(date +%Y%m%d%H%M%S).log"
+  echo "Cleaning up broken symlinks..."
+  echo "Cleanup log: $cleanup_log"
+
+  # Function to clean symlinks in a directory
+  cleanup_symlinks_in_dir() {
+    local target_dir="$1"
+    local src_prefix="$2"
+    
+    if [[ ! -d "$target_dir" ]]; then
+      return
+    fi
+    
+    # Find all symlinks in the target directory
+    find "$target_dir" -type l 2>/dev/null | while read -r symlink; do
+      local link_target=$(readlink "$symlink")
+      
+      # Check if this symlink points to our dotfiles directory
+      if [[ "$link_target" == "$src_prefix"* ]]; then
+        # Check if the source file still exists
+        if [[ ! -e "$link_target" ]]; then
+          echo "Found broken symlink: $symlink -> $link_target"
+          
+          # Create backup entry in dotfiles repo
+          local relative_path="${link_target#$dotfiles_dir/}"
+          local backup_file="$dotfiles_dir/${relative_path}.removed-$(date +%Y%m%d%H%M%S)"
+          
+          # Create backup marker file
+          echo "# This file was removed during cleanup on $(date)" > "$backup_file"
+          echo "# Original symlink: $symlink" >> "$backup_file"
+          echo "# Target path: $link_target" >> "$backup_file"
+          echo "# Removed because source file no longer exists in dotfiles repo" >> "$backup_file"
+          
+          # Log the cleanup action
+          echo "$(date): REMOVED $symlink -> $link_target (backup: $backup_file)" >> "$cleanup_log"
+          
+          echo "  Created backup marker: $backup_file"
+          echo "  Removing broken symlink: $symlink"
+          rm -f "$symlink"
+          
+          # Remove empty parent directories if they exist
+          local parent_dir=$(dirname "$symlink")
+          if [[ -d "$parent_dir" ]] && [[ -z "$(ls -A "$parent_dir" 2>/dev/null)" ]]; then
+            echo "  Removing empty directory: $parent_dir"
+            rmdir "$parent_dir" 2>/dev/null || true
+          fi
+        fi
+      fi
+    done
+  }
+  
+  # Clean up home directory symlinks (top-level dotfiles)
+  cleanup_symlinks_in_dir "$HOME" "$dotfiles_dir/"
+  
+  # Clean up config directory symlinks
+  cleanup_symlinks_in_dir "$HOME/.config" "$dotfiles_dir/config/"
+  
+  # Create cleanup summary
+  if [[ -f "$cleanup_log" ]]; then
+    echo ""
+    echo "Cleanup completed. Summary:"
+    cat "$cleanup_log"
+    echo ""
+    echo "Backup markers created in dotfiles repo for removed files."
+    echo "You can remove the .cleanup-*.log and *.removed-* files once you confirm everything is working."
+  else
+    echo "No broken symlinks found."
+  fi
+}
+
 # Run OS-specific install scripts
 run_os_specific_installers() {
   local os_ext="$1"
@@ -158,8 +231,8 @@ process_directory() {
   # Create target directory if it doesn't exist
   mkdir -p "$target_dir"
 
-  # Process each file/subdirectory
-  for item in "$src_dir"/*; do
+  # Process each file/subdirectory (including hidden files in config)
+  for item in "$src_dir"/* "$src_dir"/.*; do
     # Skip if no files in directory
     if [[ ! -e "$item" ]]; then
       continue
@@ -167,8 +240,13 @@ process_directory() {
 
     local item_name=$(basename "$item")
 
-    # Skip README files and hidden files
-    if [[ "$filename" == "install.sh" ]] || [[ "$filename" == "secrets.zsh" ]] || [[ "$filename" == "install."*".sh" ]] || [[ "$filename" == "README.md" ]] || [[ "$filename" == .* ]]; then
+    # Skip special directories and install files
+    if [[ "$item_name" == "." ]] || [[ "$item_name" == ".." ]] || [[ "$item_name" == "install.sh" ]] || [[ "$item_name" == "secrets.zsh" ]] || [[ "$item_name" == "install."*".sh" ]] || [[ "$item_name" == "README.md" ]]; then
+      continue
+    fi
+    
+    # Skip hidden files in root directory (but allow them in config)
+    if [[ "$src_dir" != *"/config"* ]] && [[ "$item_name" == .* ]]; then
       continue
     fi
 
@@ -204,6 +282,9 @@ main() {
 
   # Base dotfiles directory
   DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+  # Clean up broken symlinks first
+  cleanup_broken_symlinks "$DOTFILES_DIR"
 
   # Run OS-specific install scripts
   run_os_specific_installers "$OS_EXT" "$DOTFILES_DIR"
@@ -290,8 +371,14 @@ main() {
     fi
   done
 
-  echo "copying $HOME/secrets.zsh"
-  cp -rf secrets.zsh "$HOME/.secrets.zsh"
+  if [[ ! -f "$HOME/.secrets.zsh" ]]; then
+    echo "copying secrets.zsh to $HOME/.secrets.zsh"
+    cp -rf secrets.zsh "$HOME/.secrets.zsh"
+    chmod 600 "$HOME/.secrets.zsh"
+    echo "✅ Secured ~/.secrets.zsh with proper permissions"
+  else
+    echo "✅ Secrets ~/.secrets.zsh already exists"
+  fi
 
   # Print summary of backup files if any were created
   backup_files=$(find "$HOME" -name "*.backup.*" 2>/dev/null)
@@ -304,6 +391,20 @@ main() {
   fi
 
   echo "Dotfiles installation complete!"
+  
+  # Optional MCP server setup
+  if [[ -f "$DOTFILES_DIR/setup-zen-mcp.sh" ]]; then
+    echo
+    read -p "Would you like to set up MCP servers (zen + zencode) for Claude Code and Cursor? (user scope) (y/n): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      echo "Running MCP server setup (user scope)..."
+      "$DOTFILES_DIR/setup-zen-mcp.sh"
+    else
+      echo "Skipping MCP server setup. You can run it later with: ./setup-zen-mcp.sh"
+      echo "Note: MCP servers will be configured for Claude Code (~/.config/claude/mcp.json) and Cursor (~/.cursor/mcp.json)"
+    fi
+  fi
 }
 
 # Run the main function

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__zen__thinkdeep",
+      "Bash(mkdir:*)",
+      "Bash(find:*)",
+      "Bash(rg:*)",
+      "mcp__zen__debug",
+      "Bash(ls:*)",
+      "Bash(echo $GOROOT)",
+      "Bash(go env:*)",
+      "Bash(fzf:*)",
+      "Bash(curl:*)"
+    ],
+    "deny": []
+  }
+}

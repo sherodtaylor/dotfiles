@@ -92,13 +92,8 @@ export PATH="$HOME/.bin:$PATH"
 export ZSH_THEME="eastwood"
 # recommended by brew doctor
 export PATH='/usr/local/bin:/Users/sherodtaylor/.bin:/Users/sherodtaylor/.bin:/Users/sherodtaylor/.bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin'
-export GOROOT=/usr/local/go
-export GOPATH=/Users/staylor279/go
-export GOBIN=$GOROOT/bin
-export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:$GOBIN
+# Go configuration managed by Homebrew
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/10/bin
-eval $(go env)
 
 #export ALL_PROXY=http://127.0.0.1:8888
 #export http_proxy=http://proxy.bloomberg.com:81
@@ -147,7 +142,8 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
-source $HOME/.fzf-git.zsh
+source ~/.fzf-git.zsh
+source ~/.fzf.zsh
 
 alias rapi3tool='docker run --rm -v "`pwd -P`:/workarea" -v "/tmp:/mnttmp:ro" -e USER=${USER} -e KRB5CCNAME="/mnttmp/krb5cc_`id -u $USER`" -it artprod.dev.bloomberg.com/training/rapi3tool:latest rapi3tool'
 

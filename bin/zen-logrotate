@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# zen-logrotate - Simple log rotation for zen-mcp-server
+# Keeps logs under control to prevent disk usage issues
+
+LOG_DIR="$HOME/.local/log"
+LOG_FILE="$LOG_DIR/zen-mcp-server.log"
+ERROR_LOG="$LOG_DIR/zen-mcp-server.error.log"
+MAX_SIZE=10485760  # 10MB in bytes
+BACKUP_COUNT=5
+
+rotate_log() {
+    local log_file="$1"
+    local backup_count="$2"
+    
+    if [[ ! -f "$log_file" ]]; then
+        return 0
+    fi
+    
+    local file_size=$(stat -f%z "$log_file" 2>/dev/null || echo 0)
+    
+    if [[ $file_size -gt $MAX_SIZE ]]; then
+        echo "Rotating $log_file (size: $file_size bytes)"
+        
+        # Remove oldest backup
+        [[ -f "$log_file.$backup_count" ]] && rm "$log_file.$backup_count"
+        
+        # Shift existing backups
+        for ((i=$backup_count-1; i>=1; i--)); do
+            [[ -f "$log_file.$i" ]] && mv "$log_file.$i" "$log_file.$((i+1))"
+        done
+        
+        # Create new backup
+        mv "$log_file" "$log_file.1"
+        
+        # Create new empty log file
+        touch "$log_file"
+        chmod 644 "$log_file"
+        
+        echo "Log rotated: $log_file"
+    fi
+}
+
+# Create log directory if it doesn't exist
+mkdir -p "$LOG_DIR"
+
+# Rotate logs if they're too large
+rotate_log "$LOG_FILE" "$BACKUP_COUNT"
+rotate_log "$ERROR_LOG" "$BACKUP_COUNT"
+
+# Clean up old backups (keep only specified count)
+# Count existing backups and remove excess ones
+backup_files=($(find "$LOG_DIR" -name "zen-mcp-server.*.log.*" -type f | sort -V))
+if [[ ${#backup_files[@]} -gt $BACKUP_COUNT ]]; then
+    remove_count=$((${#backup_files[@]} - $BACKUP_COUNT))
+    for ((i=0; i<$remove_count; i++)); do
+        rm -f "${backup_files[$i]}" 2>/dev/null || true
+    done
+fi
+
+exit 0 
