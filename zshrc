@@ -185,3 +185,4 @@ export PATH="$PATH:/mnt/c/Users/shero/AppData/Local/Microsoft/WinGet/Packages/eq
 export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
 
 source ~/.secrets.zsh
+PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"

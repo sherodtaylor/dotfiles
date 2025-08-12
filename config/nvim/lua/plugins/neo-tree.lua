@@ -9,7 +9,7 @@ return {
     sort_case_insensitive = false,
     default_component_configs = {
       container = {
-        enable_character_fade = true
+        enable_character_fade = true,
       },
       indent = {
         indent_size = 2,
@@ -28,7 +28,7 @@ return {
         folder_open = "",
         folder_empty = "ﰊ",
         default = "*",
-        highlight = "NeoTreeFileIcon"
+        highlight = "NeoTreeFileIcon",
       },
       modified = {
         symbol = "[+]",
@@ -41,16 +41,16 @@ return {
       },
       git_status = {
         symbols = {
-          added     = "", 
-          modified  = "", 
-          deleted   = "✖",
-          renamed   = "",
+          added = "",
+          modified = "",
+          deleted = "✖",
+          renamed = "",
           untracked = "",
-          ignored   = "",
-          unstaged  = "",
-          staged    = "",
-          conflict  = "",
-        }
+          ignored = "",
+          unstaged = "",
+          staged = "",
+          conflict = "",
+        },
       },
     },
     window = {
@@ -73,11 +73,11 @@ return {
         ["w"] = "open_with_window_picker",
         ["C"] = "close_node",
         ["z"] = "close_all_nodes",
-        ["a"] = { 
+        ["a"] = {
           "add",
           config = {
-            show_path = "none"
-          }
+            show_path = "none",
+          },
         },
         ["A"] = "add_directory",
         ["d"] = "delete",
@@ -92,15 +92,15 @@ return {
         ["?"] = "show_help",
         ["<"] = "prev_source",
         [">"] = "next_source",
-      }
+      },
     },
     nesting_rules = {},
     filesystem = {
       filtered_items = {
         visible = false,
-        hide_dotfiles = true,
-        hide_gitignored = true,
-        hide_hidden = true,
+        hide_dotfiles = false,
+        hide_gitignored = false,
+        hide_hidden = false,
         hide_by_name = {},
         hide_by_pattern = {},
         always_show = {},
@@ -126,9 +126,9 @@ return {
           ["<c-x>"] = "clear_filter",
           ["[g"] = "prev_git_modified",
           ["]g"] = "next_git_modified",
-        }
+        },
       },
-      commands = {}
+      commands = {},
     },
     buffers = {
       follow_current_file = {
@@ -142,22 +142,23 @@ return {
           ["bd"] = "buffer_delete",
           ["<bs>"] = "navigate_up",
           ["."] = "set_root",
-        }
+        },
       },
     },
     git_status = {
       window = {
         position = "float",
         mappings = {
-          ["A"]  = "git_add_all",
+          ["A"] = "git_add_all",
           ["gu"] = "git_unstage_file",
           ["ga"] = "git_add_file",
           ["gr"] = "git_revert_file",
           ["gc"] = "git_commit",
           ["gp"] = "git_push",
           ["gg"] = "git_commit_and_push",
-        }
-      }
-    }
+        },
+      },
+    },
   },
 }
+
