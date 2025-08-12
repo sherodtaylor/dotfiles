@@ -59,10 +59,32 @@ fi
 # Install Node.js and npm
 if ! command -v node >/dev/null 2>&1; then
     echo "Installing Node.js and npm..."
-    curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-    sudo apt-get install -y nodejs
+    
+    # First try NodeSource repository
+    if curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash - && sudo apt-get install -y nodejs; then
+        echo "✓ Node.js installed via NodeSource"
+    else
+        echo "⚠️  NodeSource installation failed. Trying Ubuntu repository..."
+        # Fallback to Ubuntu's nodejs package
+        if sudo apt-get update && sudo apt-get install -y nodejs npm; then
+            echo "✓ Node.js installed via Ubuntu repository"
+        else
+            echo "❌ Failed to install Node.js. Please install manually:"
+            echo "   curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -"
+            echo "   sudo apt-get install -y nodejs"
+            exit 1
+        fi
+    fi
+    
+    # Verify installation
+    if command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1; then
+        echo "✓ Node.js $(node --version) and npm $(npm --version) installed"
+    else
+        echo "❌ Node.js or npm installation verification failed"
+        exit 1
+    fi
 else
-    echo "✓ Node.js already installed"
+    echo "✓ Node.js already installed: $(node --version)"
 fi
 
 # Install Claude Code via npm
