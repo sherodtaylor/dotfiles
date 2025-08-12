@@ -78,16 +78,18 @@ if ! command -v uv >/dev/null 2>&1; then
     echo "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
     
-    # Add uv to PATH for current session
-    export PATH="$HOME/.local/bin:$PATH"
-    
-    # Add to shell profiles for persistence
-    if ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' ~/.bashrc 2>/dev/null; then
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+    # Source the uv environment for current session
+    if [ -f "$HOME/.local/bin/env" ]; then
+        source "$HOME/.local/bin/env"
     fi
     
-    if ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' ~/.zshrc 2>/dev/null; then
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+    # Add uv env to shell profiles for persistence
+    if ! grep -q 'source $HOME/.local/bin/env' ~/.bashrc 2>/dev/null; then
+        echo 'source $HOME/.local/bin/env' >> ~/.bashrc
+    fi
+    
+    if ! grep -q 'source $HOME/.local/bin/env' ~/.zshrc 2>/dev/null; then
+        echo 'source $HOME/.local/bin/env' >> ~/.zshrc
     fi
     
     # Verify installation
@@ -95,7 +97,7 @@ if ! command -v uv >/dev/null 2>&1; then
         echo "✓ uv installed successfully and added to PATH"
     else
         echo "⚠️  uv installed but not accessible. Please restart your terminal or run:"
-        echo "   export PATH=\"\$HOME/.local/bin:\$PATH\""
+        echo "   source \$HOME/.local/bin/env"
     fi
 else
     echo "✓ uv already installed"
