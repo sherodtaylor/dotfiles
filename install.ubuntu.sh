@@ -81,13 +81,21 @@ if ! command -v uv >/dev/null 2>&1; then
     # Add uv to PATH for current session
     export PATH="$HOME/.local/bin:$PATH"
     
+    # Add to shell profiles for persistence
+    if ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' ~/.bashrc 2>/dev/null; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+    fi
+    
+    if ! grep -q 'export PATH="$HOME/.local/bin:$PATH"' ~/.zshrc 2>/dev/null; then
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc
+    fi
+    
     # Verify installation
     if command -v uv >/dev/null 2>&1; then
-        echo "✓ uv installed successfully"
+        echo "✓ uv installed successfully and added to PATH"
     else
-        echo "⚠️  uv installed but not in PATH. You may need to:"
-        echo "   - Restart your terminal, or"
-        echo "   - Run: export PATH=\"\$HOME/.local/bin:\$PATH\""
+        echo "⚠️  uv installed but not accessible. Please restart your terminal or run:"
+        echo "   export PATH=\"\$HOME/.local/bin:\$PATH\""
     fi
 else
     echo "✓ uv already installed"
