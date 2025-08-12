@@ -290,11 +290,11 @@ main() {
   run_os_specific_installers "$OS_EXT" "$DOTFILES_DIR"
 
   # Check for zsh and install Oh My Zsh if needed
-  if [[ -f "/bin/zsh" ]]; then
-    echo "Found /bin/zsh, checking Oh My Zsh..."
+  if [[ -f "/bin/zsh" ]] || [[ -f "/usr/bin/zsh" ]] || command -v zsh &>/dev/null; then
+    echo "Found zsh, checking Oh My Zsh..."
     install_oh_my_zsh
   else
-    echo "SKIPPED: /bin/zsh not found. Oh My Zsh installation skipped."
+    echo "SKIPPED: zsh not found. Oh My Zsh installation skipped."
     echo "If you want to use Oh My Zsh, please install zsh using your package manager:"
     echo "  - On Ubuntu/Debian: sudo apt install zsh"
     echo "  - On Fedora: sudo dnf install zsh"
