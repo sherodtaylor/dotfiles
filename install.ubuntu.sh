@@ -77,7 +77,18 @@ fi
 if ! command -v uv >/dev/null 2>&1; then
     echo "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
-    source ~/.bashrc
+    
+    # Add uv to PATH for current session
+    export PATH="$HOME/.local/bin:$PATH"
+    
+    # Verify installation
+    if command -v uv >/dev/null 2>&1; then
+        echo "✓ uv installed successfully"
+    else
+        echo "⚠️  uv installed but not in PATH. You may need to:"
+        echo "   - Restart your terminal, or"
+        echo "   - Run: export PATH=\"\$HOME/.local/bin:\$PATH\""
+    fi
 else
     echo "✓ uv already installed"
 fi
