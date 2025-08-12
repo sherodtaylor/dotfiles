@@ -10,7 +10,8 @@
       "Bash(echo $GOROOT)",
       "Bash(go env:*)",
       "Bash(fzf:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }
