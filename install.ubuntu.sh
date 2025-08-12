@@ -66,9 +66,19 @@ else
 fi
 
 # Install Claude Code via npm
-if ! command -v claude-code >/dev/null 2>&1; then
+if ! command -v claude >/dev/null 2>&1; then
     echo "Installing Claude Code..."
-    sudo npm install -g @anthropic-ai/claude-code
+    if sudo npm install -g @anthropic-ai/claude-code; then
+        echo "✓ Claude Code installed successfully"
+    else
+        echo "⚠️  Claude Code installation failed. Trying without sudo..."
+        if npm install -g @anthropic-ai/claude-code; then
+            echo "✓ Claude Code installed successfully"
+        else
+            echo "❌ Failed to install Claude Code. Please run manually:"
+            echo "   npm install -g @anthropic-ai/claude-code"
+        fi
+    fi
 else
     echo "✓ Claude Code already installed"
 fi
