@@ -186,3 +186,5 @@ export PATH="/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:$P
 
 source ~/.secrets.zsh
 PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+
+. "$HOME/.local/bin/env"
