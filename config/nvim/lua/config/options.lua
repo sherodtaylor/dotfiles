@@ -53,7 +53,7 @@ vim.api.nvim_create_autocmd("TermOpen", {
   group = vim.api.nvim_create_augroup("terminal_setup", { clear = true }),
   callback = function()
     local buf = vim.api.nvim_get_current_buf()
-    vim.api.nvim_buf_set_option(buf, 'winhighlight', 'Normal:TerminalNormal,NormalFloat:TerminalNormalFloat')
+    vim.api.nvim_win_set_option(0, 'winhighlight', 'Normal:TerminalNormal,NormalFloat:TerminalNormalFloat')
     
     -- Set terminal colors to match Adventure Time scheme
     vim.g.terminal_color_0 = adventure_time.black
