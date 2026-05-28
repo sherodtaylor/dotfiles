@@ -4,11 +4,6 @@
 # completion — extend fpath; OMZ calls compinit itself
 fpath=(~/.zsh/completion $fpath)
 
-# user functions
-for fn in ~/.zsh/functions/*(N); do
-  source "$fn"
-done
-
 # auto-cd into directories by typing their name
 setopt auto_cd
 
@@ -64,3 +59,8 @@ command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 export ZSH="$HOME/.oh-my-zsh"
 export ZSH_THEME="eastwood"
 [[ -f "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
+
+# user functions — sourced after OMZ so compdef/compinit are available
+for fn in ~/.zsh/functions/*(N); do
+  source "$fn"
+done
