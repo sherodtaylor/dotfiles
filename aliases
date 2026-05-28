@@ -1,0 +1,29 @@
+# Unix
+alias tlf="tail -f"
+alias ln='ln -v'
+alias mkdir='mkdir -p'
+alias ...='../..'
+alias l='ls'
+alias ll='ls -al'
+alias lh='ls -Alh'
+alias -g G='| grep'
+alias -g M='| less'
+alias -g L='| wc -l'
+alias -g ONE="| awk '{ print \$1}'"
+alias e="$EDITOR"
+alias v="$VISUAL"
+
+# Modern CLI replacements (no-op if tool missing)
+command -v eza >/dev/null 2>&1 && {
+  alias ls='eza'
+  alias ll='eza -l --git'
+  alias la='eza -la --git'
+  alias lt='eza --tree --level=2'
+}
+command -v bat >/dev/null 2>&1 && alias cat='bat --paging=never'
+
+# git
+alias gci="git pull --rebase && git push"
+
+# Include custom aliases
+[[ -f ~/.aliases.local ]] && source ~/.aliases.local

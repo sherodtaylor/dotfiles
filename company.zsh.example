@@ -1,0 +1,72 @@
+# Company-specific configuration template
+# Copy this file to company.zsh and customize with your company's settings
+# company.zsh will be ignored by git for security
+
+# Company email for git configuration
+export COMPANY_EMAIL="your.name@company.com"
+
+# Company proxy settings (uncomment and customize as needed)
+#export http_proxy="http://proxy.company.com:8080"
+#export https_proxy="http://proxy.company.com:8080"
+#export ALL_PROXY="http://proxy.company.com:8080"
+
+# Company-specific Go proxy and private modules (if applicable)
+#export GOPRIVATE="*.dev.company.com"
+#export GOPROXY="https://goproxy.company.com,direct"
+
+# Company proxy aliases
+#alias dev_proxy='http_proxy=http://internal.proxy.company.com:80 https_proxy=http://internal.proxy.company.com:80'
+#alias ext_proxy='http_proxy=http://proxy.company.com:8080 https_proxy=http://proxy.company.com:8080'
+
+# Company-specific development tools and mounts
+#alias dev_mount="sshfs dev.company.com: ~/dev -p 22 -o IdentityFile=~/.ssh/company_key"
+
+# Company-specific development containers/tools
+#alias company_tool='docker run --rm -it company.registry.com/dev-tool:latest'
+
+# Company JIRA integration (requires secret-tool for credentials)
+# To store credentials securely:
+# secret-tool store --label="Company JIRA username" jira username
+# secret-tool store --label="Company JIRA password" jira password
+function create-branch-company() {
+  # Customize this function for your company's JIRA instance
+  local jq_template query username password branch_name
+
+  jq_template='"'\
+'\(.key). \(.fields.summary)'\
+'\t'\
+'Reporter: \(.fields.reporter.displayName)\n'\
+'Created: \(.fields.created)\n'\
+'Updated: \(.fields.updated)\n\n'\
+'\(.fields.description)'\
+'"'
+  query='project=YOUR_PROJECT AND status="In Progress" AND assignee=currentUser()'
+  username=$(secret-tool lookup jira username)
+  password=$(secret-tool lookup jira password)
+
+  branch_name=$(
+    curl \
+      --data-urlencode "jql=$query" \
+      --get \
+      --user "$username:$password" \
+      --silent \
+      --compressed \
+      'https://jira.company.com/rest/api/2/search' |
+    jq ".issues[] | $jq_template" |
+    sed -e 's/"\(.*\)"/\1/' -e 's/\\t/\t/' |
+    fzf \
+      --with-nth=1 \
+      --delimiter='\t' \
+      --preview='echo -e {2}' \
+      --preview-window=top:wrap |
+    cut -f1 |
+    sed -e 's/\. /\t/' -e 's/[^a-zA-Z0-9\t]/-/g' |
+    awk '{printf "%s/%s", $1, tolower($2)}'
+  )
+
+  if [ -n "$branch_name" ]; then
+    git checkout -b "$branch_name"
+  fi
+}
+
+# Include any other company-specific aliases, functions, or environment variables below

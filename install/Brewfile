@@ -1,0 +1,28 @@
+# Declarative mac package list. Run via: brew bundle --file=install/Brewfile
+
+# Shell & terminal
+brew "zsh"
+brew "tmux"
+brew "fzf"
+
+# Editor
+brew "neovim"
+
+# Languages (note: nvm + uv + rustup managed by install/common.sh, not brew)
+brew "go"
+
+# Core CLI — modern Unix
+brew "ripgrep"
+brew "fd"
+brew "bat"
+brew "jq"
+brew "yq"
+brew "gh"
+brew "zoxide"
+brew "eza"
+brew "the_silver_searcher"
+
+# Mac apps
+cask "wezterm"
+cask "hammerspoon"
+cask "font-fira-code-nerd-font"

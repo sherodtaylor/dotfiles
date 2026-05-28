@@ -1,0 +1,50 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:24.04
+      options: --user root
+
+    steps:
+      - name: Prepare container
+        run: |
+          apt-get update -qq
+          apt-get install -y -qq sudo git curl ca-certificates shellcheck
+          useradd -m -s /bin/bash test
+          echo 'test ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+          mkdir -p /home/test/.cache && chown -R test:test /home/test
+
+      - uses: actions/checkout@v4
+        with:
+          path: dotfiles
+
+      - name: Hand repo to test user
+        run: |
+          cp -a "$GITHUB_WORKSPACE/dotfiles" /home/test/dotfiles
+          chown -R test:test /home/test/dotfiles
+
+      - name: Lint shell scripts
+        run: |
+          sudo -u test bash -lc 'cd ~/dotfiles && ./tests/lint.sh'
+
+      - name: First install (cold) — install.sh auto-dispatches to install/apt.sh
+        run: |
+          sudo -u test bash -lc 'cd ~/dotfiles && ./install.sh'
+
+      - name: Second install (idempotency)
+        run: |
+          sudo -u test bash -lc 'cd ~/dotfiles && ./install.sh'
+
+      - name: Third install — --skip-packages fast path
+        run: |
+          sudo -u test bash -lc 'cd ~/dotfiles && ./install.sh --skip-packages'
+
+      - name: Verify
+        run: |
+          sudo -u test bash -lc 'cd ~/dotfiles && ./tests/verify-install.sh'

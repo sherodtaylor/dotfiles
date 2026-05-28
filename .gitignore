@@ -1,0 +1,9 @@
+!bin
+vim/bundle/
+.cleanup*
+*.removed*
+**/.DS_Store
+**/.netrwhist
+
+# Company-specific configuration (copied from company.zsh.example by install.sh)
+company.zsh

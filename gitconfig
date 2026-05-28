@@ -1,0 +1,54 @@
+[user]
+  name = Sherod Taylor
+  email = sherodtaylor@gmail.com
+
+[init]
+  defaultBranch = main
+
+[push]
+  default = current
+
+[pull]
+  rebase = true
+
+[core]
+  excludesfile = ~/.gitignore
+  autocrlf = input
+
+[color]
+  ui = auto
+
+[alias]
+  aa = add --all
+  ap = add --patch
+  ca = commit --amend
+  ci = commit -v
+  co = checkout
+  st = status
+  up = !git fetch origin && git rebase "origin/$(git symbolic-ref --short refs/remotes/origin/HEAD | sed 's|^origin/||')"
+  create-branch = !sh -c 'git checkout -b "$1" && git push -u origin HEAD' -
+  delete-branch = !sh -c 'git push origin :refs/heads/$1 && git remote prune origin && git branch -D $1' -
+  merge-branch = !sh -c 'git checkout "$(git symbolic-ref --short refs/remotes/origin/HEAD | sed \"s|^origin/||\")" && git merge @{-1}' -
+
+[merge]
+  tool = nvimdiff
+
+[mergetool]
+  prompt = false
+  keepBackup = false
+
+[mergetool "nvimdiff"]
+  layout = "LOCAL,BASE,REMOTE / MERGED"
+
+[filter "lfs"]
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+
+[http]
+  postBuffer = 157286400
+
+# Personal/work overrides — provided by user in ~/.gitconfig.local (not committed)
+[include]
+  path = ~/.gitconfig.local

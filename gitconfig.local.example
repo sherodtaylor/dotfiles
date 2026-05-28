@@ -1,0 +1,23 @@
+# ~/.gitconfig.local — personal/work overrides for git.
+# Copied here from gitconfig.local.example by install.sh (only if missing).
+# Edit freely. Not symlinked, not tracked by the dotfiles repo.
+
+# --- Work identity for a specific directory ---
+# Uncomment and adapt: any repo under the given gitdir uses these instead.
+#
+# [includeIf "gitdir:~/work/"]
+#   path = ~/.gitconfig.work
+#
+# Then put work [user] block in ~/.gitconfig.work.
+
+# --- macOS keychain helper (kept out of the committed gitconfig) ---
+# [credential]
+#   helper = osxkeychain
+
+# --- GitHub CLI as credential helper (any OS) ---
+# [credential "https://github.com"]
+#   helper =
+#   helper = !gh auth git-credential
+# [credential "https://gist.github.com"]
+#   helper =
+#   helper = !gh auth git-credential
