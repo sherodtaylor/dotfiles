@@ -1,17 +1,12 @@
 # ~/.zshrc -> dotfiles/zshrc
 # Slim base — sources OS-specific fragments and personal overrides.
 
-# Resolve the dotfiles directory from the symlink
-__dotfiles_resolve() {
-  local self="${(%):-%N}"
-  # If $self is a symlink, follow it
-  if [[ -L "$self" ]]; then
-    self="$(readlink "$self")"
-  fi
-  print -r -- "${self:A:h}"
-}
-export DOTFILES="${DOTFILES:-$(__dotfiles_resolve)}"
-unfunction __dotfiles_resolve
+# Resolve the dotfiles directory from the symlink target of this rc file.
+# `${(%):-%x}` evaluates to the path of the script currently being sourced
+# (~/.zshrc), and `:A` follows the symlink to the real file, `:h` strips
+# the filename. Top-level only — `%x` inside a function would name the
+# function instead of the script.
+export DOTFILES="${DOTFILES:-${${(%):-%x}:A:h}}"
 
 [[ -f "$DOTFILES/zsh/os/common.zsh" ]] && source "$DOTFILES/zsh/os/common.zsh"
 
