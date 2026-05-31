@@ -1,5 +1,23 @@
 #!/bin/bash
 
+# Detect if running inside a container or agent environment (Kubernetes, Docker, etc.)
+# Returns 0 (true) if in a container, 1 (false) otherwise.
+is_container_env() {
+  # Kubernetes sets this in every pod
+  [[ -n "${KUBERNETES_SERVICE_HOST:-}" ]] && return 0
+  # Docker / containerd leave this file
+  [[ -f /.dockerenv ]] && return 0
+  # agent-smith sets AGENT_NAME in every agent pod
+  [[ -n "${AGENT_NAME:-}" ]] && return 0
+  return 1
+}
+
+# Files that require an interactive desktop environment and must be skipped
+# when installing inside a container / headless agent.
+CONTAINER_SKIP_FILES=(
+  tmux.conf   # TPM + reattach-to-user-namespace crash detached tmux servers
+)
+
 # Detect operating system and return appropriate extension
 detect_os_extension() {
   # Check for WSL first
@@ -256,6 +274,16 @@ process_directory() {
       continue
     fi
 
+    # Skip desktop-only files when running in a container / agent environment
+    if is_container_env; then
+      for _skip in "${CONTAINER_SKIP_FILES[@]}"; do
+        if [[ "$item_name" == "$_skip" ]]; then
+          echo "INFO: container env detected — skipping desktop-only file: $item_name"
+          continue 2
+        fi
+      done
+    fi
+
     # Skip hidden files in root directory (but allow them in config)
     if [[ "$src_dir" != *"/config"* ]] && [[ "$item_name" == .* ]]; then
       continue
@@ -371,6 +399,19 @@ HELP
         echo "skip processing file: $filename"
         continue
         ;;
+    esac
+
+    # Skip desktop-only files when running in a container / agent environment
+    if is_container_env; then
+      for _skip in "${CONTAINER_SKIP_FILES[@]}"; do
+        if [[ "$filename" == "$_skip" ]]; then
+          echo "INFO: container env detected — skipping desktop-only file: $filename"
+          continue 2
+        fi
+      done
+    fi
+
+    case "$filename" in
       install.*.sh)
         echo "skip processing file: $filename"
         continue
